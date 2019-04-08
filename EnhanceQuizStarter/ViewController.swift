@@ -17,10 +17,10 @@ class ViewController: UIViewController {
     // MARK: - Outlets
     @IBOutlet weak var questionField: UILabel!
     @IBOutlet weak var scoring: UILabel!
-    @IBOutlet weak var firstBtn: UIButton!
-    @IBOutlet weak var secondBtn: UIButton!
-    @IBOutlet weak var thirdBtn: UIButton!
-    @IBOutlet weak var fourthBtn: UIButton!
+    @IBOutlet weak var firstButton: UIButton!
+    @IBOutlet weak var secondButton: UIButton!
+    @IBOutlet weak var thirdButton: UIButton!
+    @IBOutlet weak var fourthButton: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
 
     var questionNumber: Int = 0
@@ -41,14 +41,14 @@ class ViewController: UIViewController {
         questionField.text = questionDictionary["Question"] as? String
         
         let answers = questionDictionary["Answers"]! as? [String]
-        firstBtn.setTitle(answers![0], for: .normal)
-        firstBtn.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        secondBtn.setTitle(answers![1], for: .normal)
-        secondBtn.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        thirdBtn.setTitle(answers![2], for: .normal)
-        thirdBtn.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        fourthBtn.setTitle(answers![3], for: .normal)
-        fourthBtn.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        firstButton.setTitle(answers![0], for: .normal)
+        firstButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        secondButton.setTitle(answers![1], for: .normal)
+        secondButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        thirdButton.setTitle(answers![2], for: .normal)
+        thirdButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
+        fourthButton.setTitle(answers![3], for: .normal)
+        fourthButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         
         enableAllButtons()
         
@@ -66,10 +66,10 @@ class ViewController: UIViewController {
     // End of round
     func gameOver() {
         questionField.isHidden = true
-        firstBtn.isHidden = true
-        secondBtn.isHidden = true
-        thirdBtn.isHidden = true
-        fourthBtn.isHidden = true
+        firstButton.isHidden = true
+        secondButton.isHidden = true
+        thirdButton.isHidden = true
+        fourthButton.isHidden = true
         
         displayScore()
         playAgainButton.isHidden = false
@@ -184,9 +184,9 @@ class ViewController: UIViewController {
         newQuestion()
         
         questionField.isHidden = false
-        firstBtn.isHidden = false
-        secondBtn.isHidden = false
-        thirdBtn.isHidden = false
-        fourthBtn.isHidden = false
+        firstButton.isHidden = false
+        secondButton.isHidden = false
+        thirdButton.isHidden = false
+        fourthButton.isHidden = false
     }
 }
