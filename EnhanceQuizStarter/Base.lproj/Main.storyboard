@@ -150,13 +150,13 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="firstBtn" destination="VJG-i4-3aj" id="UUf-nq-yUT"/>
-                        <outlet property="fourthBtn" destination="q9s-lf-Zdr" id="r9q-cJ-Tdf"/>
+                        <outlet property="firstButton" destination="VJG-i4-3aj" id="UUf-nq-yUT"/>
+                        <outlet property="fourthButton" destination="q9s-lf-Zdr" id="r9q-cJ-Tdf"/>
                         <outlet property="playAgainButton" destination="eic-Nx-foS" id="fZz-Md-Y70"/>
                         <outlet property="questionField" destination="dCF-BL-dDa" id="HIQ-UX-KNe"/>
                         <outlet property="scoring" destination="p0W-bU-Khx" id="gZz-aK-vdl"/>
-                        <outlet property="secondBtn" destination="geL-sL-SCf" id="uDp-r0-TMl"/>
-                        <outlet property="thirdBtn" destination="kBg-WR-u9I" id="HmW-Rd-duH"/>
+                        <outlet property="secondButton" destination="geL-sL-SCf" id="uDp-r0-TMl"/>
+                        <outlet property="thirdButton" destination="kBg-WR-u9I" id="HmW-Rd-duH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

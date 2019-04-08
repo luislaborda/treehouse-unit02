@@ -6,23 +6,20 @@
 //  Copyright © 2019 Treehouse. All rights reserved.
 //
 import UIKit
-import AudioToolbox
 
-class GameManager: Trivia {
+class GameManager {
     
     let questionsPerRound = 4
-    var questionDictionary: [String:Any]?
+    var questionDictionary: Question?
+    
+    let trivia: Trivia?
     
     // Game scoring
     var numQuestionsAsked = 0
     var correctQuestions = 0
     
-    // Sound
-    var gameSound: SystemSoundID = 0
-    
-    override init() {
-        super.init()
-        loadGameStartSound()
+    init() {
+        trivia = Trivia.init()
     }
 
     //MARK: - Game Methods
@@ -33,17 +30,24 @@ class GameManager: Trivia {
      
      - Return: Dictionary of one question from the pool
     */
-    func newQuestionFromPool() -> [String:Any] {
-        questionDictionary = loadNewTriviaQuestion()
-        return questionDictionary!
+    func newQuestionFromPool() -> Question? {
+        guard let triviaQuestion = trivia!.loadNewTriviaQuestion() else {
+            return nil
+        }
+        questionDictionary = triviaQuestion
+        return questionDictionary
     }
     
     /**
- 
+     checks for correct answer and adds 1 point to correctQuestions stored property
+     
+     - Parameter: label - is the text in the label of the selected button
+     
+     - Return: Bool - True if the answer is correct, otherwise false
     */
     func checkAnswer(button label: String) -> Bool {
         numQuestionsAsked += 1
-        guard let answer = questionDictionary!["CorrectAnswer"] as? String else {
+        guard let answer = questionDictionary?.answser else {
             return false
         }
         
@@ -79,27 +83,7 @@ class GameManager: Trivia {
     func reset() {
         numQuestionsAsked = 0
         correctQuestions = 0
-        resetTrivia()
+        trivia!.resetTrivia()
     }
-    
-    
-    // MARK: - Sound Helper Methods
-    /**
-     Announces start of the game by making a sound
- 
-     - Paremeter: nil
-     
-     - Return: nil
-    */
-    fileprivate func loadGameStartSound() {
-        let path = Bundle.main.path(forResource: "GameSound", ofType: "wav")
-        let soundUrl = URL(fileURLWithPath: path!)
-        AudioServicesCreateSystemSoundID(soundUrl as CFURL, &gameSound)
-    }
-    
-    
-    func playGameStartSound() {
-        AudioServicesPlaySystemSound(gameSound)
-    }
-    
+
 }

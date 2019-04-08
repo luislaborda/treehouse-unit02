@@ -22,32 +22,41 @@ class ViewController: UIViewController {
     @IBOutlet weak var thirdButton: UIButton!
     @IBOutlet weak var fourthButton: UIButton!
     @IBOutlet weak var playAgainButton: UIButton!
+    
+    // default sound id
+    var sound = SoundManager.init(gameSound: 1000)
 
     var questionNumber: Int = 0
     
     override func viewDidLoad() {
         // Display play again button
         playAgainButton.isHidden = false
+
+        sound.playGameStartSound()
         
         super.viewDidLoad()
         newQuestion()
-        gameManager.playGameStartSound()
+        
     }
     
     
-    // displays new question
+    /// Displays new question
     func newQuestion() {
-        let questionDictionary = gameManager.newQuestionFromPool()
-        questionField.text = questionDictionary["Question"] as? String
+        guard let questionObject = gameManager.newQuestionFromPool() else {
+            questionField.text = "Unable to load any more questions"
+            return
+        }
         
-        let answers = questionDictionary["Answers"]! as? [String]
-        firstButton.setTitle(answers![0], for: .normal)
+        questionField.text = questionObject.question
+        
+        let answers = questionObject.possibleAnswers
+        firstButton.setTitle(answers[0], for: .normal)
         firstButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        secondButton.setTitle(answers![1], for: .normal)
+        secondButton.setTitle(answers[1], for: .normal)
         secondButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        thirdButton.setTitle(answers![2], for: .normal)
+        thirdButton.setTitle(answers[2], for: .normal)
         thirdButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
-        fourthButton.setTitle(answers![3], for: .normal)
+        fourthButton.setTitle(answers[3], for: .normal)
         fourthButton.backgroundColor = #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)
         
         enableAllButtons()
@@ -57,13 +66,13 @@ class ViewController: UIViewController {
         playAgainButton.isHidden = true
     }
     
-    // display the final score
+    /// Display the final score
     func displayScore() {
         scoring.isHidden = false
         scoring.text = "Correct Answers: \(gameManager.correctQuestions)"
     }
     
-    // End of round
+    /// End of round
     func gameOver() {
         questionField.isHidden = true
         firstButton.isHidden = true
@@ -107,6 +116,7 @@ class ViewController: UIViewController {
             self.loadNextRound(delay: 2, endGame: true)
         }
     }
+    
     /**
      helper method to dispatch a method after n number of seconds
      
@@ -131,7 +141,13 @@ class ViewController: UIViewController {
         }
     }
     
-    // disables all the buttons with tag 1 through 4
+    /**
+     Disables all the buttons with tag 1 through 4
+     
+     - Parameter: tag - index of the button indicated in the tag stored property
+     
+     - Return: nil
+    */
     fileprivate func disableAllButtons(except tag:Int) {
         // Disable all other buttons to prevent tapping multiple ones
         for tagValue in 1...4 {
@@ -142,7 +158,13 @@ class ViewController: UIViewController {
         }
     }
     
-    // enables all the buttons with tag 1 through 4
+    /**
+     Enables all the buttons with tag 1 through 4
+     
+     - Parameter: nil
+     
+     - Return: nil
+     */
     fileprivate func enableAllButtons() {
         for tagValue in 1...4 {
             let tempBtn = self.view.viewWithTag(tagValue) as! UIButton
@@ -153,16 +175,21 @@ class ViewController: UIViewController {
     
     // MARK: - Actions
     
-    // check if selected answer is correct
+    /// Check if selected answer is correct
     @IBAction func checkAnswer(_ sender: UIButton) {
+        
+        guard let title = sender.titleLabel?.text else {
+            return
+        }
         
         disableAllButtons(except: sender.tag)
         
-        let title = sender.titleLabel?.text
-        let isCorrectAnswer = gameManager.checkAnswer(button: title!)
+        let isCorrectAnswer = gameManager.checkAnswer(button: title)
         
-        // Correct Answer
+        // Animates the buttons background color
         if isCorrectAnswer {
+            sound.gameSound = 1106
+            sound.playGameStartSound()
             UIView.animate(withDuration: 0.2, animations: {
                 sender.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
             }) { _ in
@@ -170,6 +197,8 @@ class ViewController: UIViewController {
             }
         } // Wrong Answer
         else {
+            sound.gameSound = 1025
+            sound.playGameStartSound()
             UIView.animate(withDuration: 0.2, animations: {
                 sender.backgroundColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)
             }) { _ in
@@ -178,7 +207,7 @@ class ViewController: UIViewController {
         }
     }
     
-    // starts a new round of questions
+    /// Starts a new round of questions
     @IBAction func playAgain(_ sender: UIButton) {
         gameManager.reset()
         newQuestion()

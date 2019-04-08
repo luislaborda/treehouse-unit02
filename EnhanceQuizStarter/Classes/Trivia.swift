@@ -10,11 +10,12 @@ import GameKit
 
 class Trivia {
     
-    let trivia = QuestionsProvider()
+    let qa = QuestionsProvider()
     
     // Keep track of selected questions to avoid repeat
     var questionsAsked = Set<Int>()
     var indexOfSelectedQuestion = 0
+    
     
     // MARK: -
     
@@ -22,7 +23,7 @@ class Trivia {
      Initialization
     */
     init() {
-        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.questions.count)
+        indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: qa.questions.count)
     }
 
     /**
@@ -33,24 +34,24 @@ class Trivia {
      - Return: Dictionary[String: Any]
               A question from QuestionsProvider Model
     */
-    public func loadNewTriviaQuestion() -> [String: Any] {
+    public func loadNewTriviaQuestion() -> Question? {
         
         // Whether or not we exaust the questions
         if self.questionsLeft() {
             
             // loop to avoid selecting the same question
             while questionsAsked.contains(indexOfSelectedQuestion) {
-                indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: trivia.questions.count)
+                indexOfSelectedQuestion = GKRandomSource.sharedRandom().nextInt(upperBound: qa.questions.count)
             }
             
             // Add to the questions asked set
             questionsAsked.insert(indexOfSelectedQuestion)
             
-            return trivia.questions[indexOfSelectedQuestion]
+            return qa.questions[indexOfSelectedQuestion]
         }
         
-        // reutns empty question
-        return ["Question": ""]
+        // return nil id there are no questions left for the round
+        return nil
     }
     
     
@@ -77,7 +78,7 @@ class Trivia {
                Whether or not we exaust the questions
     */
     fileprivate func questionsLeft() -> Bool {
-        if questionsAsked.count <= trivia.questions.count {
+        if questionsAsked.count <= qa.questions.count {
             return true
         }
         return false
