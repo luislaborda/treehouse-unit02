@@ -24,14 +24,17 @@ class ViewController: UIViewController {
     @IBOutlet weak var playAgainButton: UIButton!
     
     // default sound id
-    var sound = SoundManager.init(gameSound: 1000)
+    // reference: http://iphonedevwiki.net/index.php/AudioServices
+    var sound = SoundManager.init()
 
     var questionNumber: Int = 0
     
     override func viewDidLoad() {
         // Display play again button
         playAgainButton.isHidden = false
-
+        
+        // Annoying sound here :-)
+        sound.loadGameStartSound()
         sound.playGameStartSound()
         
         super.viewDidLoad()
@@ -186,9 +189,9 @@ class ViewController: UIViewController {
         
         let isCorrectAnswer = gameManager.checkAnswer(button: title)
         
-        // Animates the buttons background color
+        // Animates the buttons background color and plays sound
         if isCorrectAnswer {
-            sound.gameSound = 1106
+            sound.gameSound = 1022
             sound.playGameStartSound()
             UIView.animate(withDuration: 0.2, animations: {
                 sender.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
@@ -206,6 +209,8 @@ class ViewController: UIViewController {
             }
         }
     }
+    
+    
     
     /// Starts a new round of questions
     @IBAction func playAgain(_ sender: UIButton) {
