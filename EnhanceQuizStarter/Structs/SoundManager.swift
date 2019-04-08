@@ -27,7 +27,7 @@ struct SoundManager {
     }
 
 
-    public func playGameStartSound() {
+    public func playGameSound() {
         AudioServicesPlaySystemSound(gameSound)
     }
 }

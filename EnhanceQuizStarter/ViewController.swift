@@ -35,7 +35,7 @@ class ViewController: UIViewController {
         
         // Annoying sound here :-)
         sound.loadGameStartSound()
-        sound.playGameStartSound()
+        sound.playGameSound()
         
         super.viewDidLoad()
         newQuestion()
@@ -192,7 +192,7 @@ class ViewController: UIViewController {
         // Animates the buttons background color and plays sound
         if isCorrectAnswer {
             sound.gameSound = 1022
-            sound.playGameStartSound()
+            sound.playGameSound()
             UIView.animate(withDuration: 0.2, animations: {
                 sender.backgroundColor = #colorLiteral(red: 0.3411764801, green: 0.6235294342, blue: 0.1686274558, alpha: 1)
             }) { _ in
@@ -201,7 +201,7 @@ class ViewController: UIViewController {
         } // Wrong Answer
         else {
             sound.gameSound = 1025
-            sound.playGameStartSound()
+            sound.playGameSound()
             UIView.animate(withDuration: 0.2, animations: {
                 sender.backgroundColor = #colorLiteral(red: 0.5725490451, green: 0, blue: 0.2313725501, alpha: 1)
             }) { _ in
